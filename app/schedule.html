@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title>Stuff</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="lib/underscore-min.js"></script>
+    <script src="lib/jquery-latest.js"></script>
+    <script src="lib/angular.min.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/app.js"></script>
+    
+  </head>
+  <body ng-controller="FooCtlr">
+    <p>Hello {{name}}</p>
+
+    <table width="70%" border="1">
+      <caption>My table</caption>
+      <thead>
+        <tr>
+          <th>C0</th>
+          <th>C1</th>
+          <th>C2</th>
+          <th>C3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="day in schedule">
+          <td>{{day.day}}</td>
+          <td ng-repeat="shift in day.shifts">
+            {{shift.need}} - {{shift.time}} - {{day.day}}
+            <ul>
+              <li ng-repeat="shift in availability | slot:day.day:shift.time:show">
+                <div >{{shift.name}} + {{shift.type}}</div>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </body>
+</html>
