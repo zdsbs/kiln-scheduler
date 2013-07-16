@@ -1,6 +1,6 @@
 'use strict';
 
-function FooCtlr($scope) {
+function ScheduleCtlr($scope) {
 
 	$scope.samShifts = 
 
