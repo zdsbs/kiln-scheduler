@@ -13,7 +13,6 @@
     
   </head>
   <body ng-controller="FooCtlr">
-    <p>Hello {{name}}</p>
 
     <table width="70%" border="1">
       <caption>My table</caption>
@@ -39,6 +38,13 @@
         </tr>
       </tbody>
     </table>
+
+    <ul class="unstyled">
+        <li ng-repeat="person in people">
+          <input type="checkbox" ng-click="showhide(person)">
+          <span >{{person.name}}</span>
+        </li>
+      </ul>
 
   </body>
 </html>
