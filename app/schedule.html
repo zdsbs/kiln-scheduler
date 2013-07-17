@@ -31,7 +31,9 @@
             {{shift.need}} - {{shift.time}} - {{day.day}}
             <ul>
               <li ng-repeat="shift in availability | slot:day.day:shift.time:show:onlyAssigned">
-                <div >{{shift.name}} + {{shift.type}} + {{shift.assigned}}</div>
+                <div >{{shift.name}} + {{shift.shift.type}} + 
+                  <a href="#" ng-click=toggle(shift)>{{shift.shift.assigned}}</a>
+                </div>
               </li>
             </ul>
           </td>

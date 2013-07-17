@@ -8,10 +8,10 @@ angular.module('app',[]).
     		var out = [];
     		for(var i = 0; i < availability.length; i++) {
     			var a = availability[i];
- 				if(onlyAssigned && !a.assigned) {
+ 				if(onlyAssigned && !a.shift.assigned) {
  					continue;
  				}
-    			if(a.day == day && a.time == time && show.indexOf(a.name) != -1) {
+    			if(a.shift.day == day && a.shift.time == time && show.indexOf(a.name) != -1) {
     				out.push(a);
     			}
     		}

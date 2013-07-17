@@ -32,15 +32,13 @@ function ScheduleCtlr($scope) {
 
 	$scope.availability = [];
 	$scope.$watch('people',function(){
+		$scope.availability = [];
 		for(var i = 0; i < $scope.people.length; i++) {
 			var person = $scope.people[i];
 			for(var j =0; j < person.availability.length; j++) {
 				var availability = person.availability[j];
 				var shift = {name:person.name,
-					day:availability.day,
-					time:availability.time,
-					type:availability.type,
-					assigned:availability.assigned};
+					shift:availability};
 				$scope.availability.push(shift);
 			}
 		}
@@ -50,6 +48,9 @@ function ScheduleCtlr($scope) {
 
 	$scope.show = [];
 
+	$scope.toggle = function(shift) {
+		shift.shift.assigned = !shift.shift.assigned;
+	}
 
 	$scope.schedule = [
 		{ day: "1/1/2013",
