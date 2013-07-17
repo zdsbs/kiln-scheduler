@@ -30,15 +30,15 @@
           <td ng-repeat="shift in day.shifts">
             {{shift.need}} - {{shift.time}} - {{day.day}}
             <ul>
-              <li ng-repeat="shift in availability | slot:day.day:shift.time:show">
-                <div >{{shift.name}} + {{shift.type}}</div>
+              <li ng-repeat="shift in availability | slot:day.day:shift.time:show:onlyAssigned">
+                <div >{{shift.name}} + {{shift.type}} + {{shift.assigned}}</div>
               </li>
             </ul>
           </td>
         </tr>
       </tbody>
     </table>
-
+    <div><input type="checkbox" ng-model="onlyAssigned">Only Assigned</div>
     <ul class="unstyled">
         <li ng-repeat="person in people">
           <input type="checkbox" ng-click="showhide(person)">

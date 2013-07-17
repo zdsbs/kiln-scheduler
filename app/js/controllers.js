@@ -2,43 +2,33 @@
 
 function ScheduleCtlr($scope) {
 
-	$scope.samShifts = 
-
-
-	$scope.people = [{
-		"1/1/2013": {"12-8":"ideal", "4-12":"possible"},
-		"1/2/2013": {"12-8":"ideal", "4-12":"ideal"}
-	}];
-
 	$scope.sam = {
 		name:"Sam",
 		availability: [
-			{day:"1/1/2013",time:"12-8",type:"possible"},
-			{day:"1/1/2013",time:"4-12",type:"ideal"},
-			{day:"1/2/2013",time:"12-8",type:"possible"}],
-		assigned: [
-			{day:"1/1/2013",time:"12-8"},
-			{day:"1/2/2013",time:"12-8"}
-		]
+			{day:"1/1/2013",time:"4-12",type:"ideal",assigned:false},
+			{day:"1/2/2013",time:"4-12",type:"possible",assigned:true},
+			{day:"1/1/2013",time:"12-8",type:"possible",assigned:true},
+			{day:"1/2/2013",time:"12-8",type:"possible",assigned:false}]
 	}
 
 	$scope.dave = {
 			name:"Dave",
 			availability: [
-				{day:"1/1/2013",time:"12-8",type:"possible"},
-				{day:"1/1/2013",time:"4-12",type:"ideal"},
-				{day:"1/2/2013",time:"12-8",type:"possible"}]
+				{day:"1/1/2013",time:"12-8",type:"possible",assigned:false},
+				{day:"1/1/2013",time:"4-12",type:"ideal",assigned:false},
+				{day:"1/2/2013",time:"12-8",type:"possible",assigned:false}]
 	}
 
 	$scope.al = {
 			name:"Al",
 			availability: [
-				{day:"1/1/2013",time:"8-4",type:"possible"},
-				{day:"1/1/2013",time:"4-12",type:"ideal"},
-				{day:"1/2/2013",time:"12-8",type:"possible"}]
+				{day:"1/1/2013",time:"8-4",type:"possible",assigned:false},
+				{day:"1/1/2013",time:"4-12",type:"ideal",assigned:false},
+				{day:"1/2/2013",time:"12-8",type:"possible",assigned:false}]
 	}
 
 	$scope.people = [$scope.sam,$scope.dave,$scope.al];
+
 
 	$scope.availability = [];
 	$scope.$watch('people',function(){
@@ -49,12 +39,14 @@ function ScheduleCtlr($scope) {
 				var shift = {name:person.name,
 					day:availability.day,
 					time:availability.time,
-					type:availability.type};
+					type:availability.type,
+					assigned:availability.assigned};
 				$scope.availability.push(shift);
 			}
 		}
 	},true);
 
+	$scope.onlyAssigned = false;
 
 	$scope.show = [];
 
