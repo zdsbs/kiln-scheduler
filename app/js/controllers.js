@@ -29,7 +29,6 @@ function ScheduleCtlr($scope) {
 
 	$scope.people = [$scope.sam,$scope.dave,$scope.al];
 
-
 	$scope.availability = [];
 	$scope.$watch('people',function(){
 		$scope.availability = [];
@@ -52,19 +51,12 @@ function ScheduleCtlr($scope) {
 		shift.shift.assigned = !shift.shift.assigned;
 	}
 
-	$scope.schedule = [
-		{ day: "1/1/2013",
-		  shifts: [
-				{time:"12-8", need:0, possible:["Sam,Dave"], ideal:["Peter"]},
-				{time:"8-4", need:1, possible:["Peter,Dave"], ideal:[]},
-				{time:"4-12", need:2, possible:["Dave"], ideal:["Peter"]}]},
+	$scope.days = ["1/1/2013","1/2/2013"];
+	$scope.times = ["12-8","8-4","4-12"];
 
-		{ day: "1/2/2013",
-		  shifts: [
-				{time:"12-8", need:2},
-				{time:"8-4", need:3},
-				{time:"4-12", need:3}]}
-	];
+	$scope.schedule = { 
+		"1/1/2013": {"12-8":0,"8-4":1,"4-12":2},
+		"1/2/2013": {"12-8":2,"8-4":3,"4-12":3}};
 
 	$scope.showhide = function(person) {
 		var index = $scope.show.indexOf(person.name);

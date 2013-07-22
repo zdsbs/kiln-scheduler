@@ -18,25 +18,22 @@
       <caption>My table</caption>
       <thead>
         <tr>
-          <th>C0</th>
-          <th>C1</th>
-          <th>C2</th>
-          <th>C3</th>
+          <th>Day</th>
+          <th ng-repeat="time in times">{{time}}</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="day in schedule">
-          <td>{{day.day}}</td>
-          <td ng-repeat="shift in day.shifts">
-            {{shift.need}} - {{shift.time}} - {{day.day}}
+        <tr ng-repeat="day in days">
+          <td>{{day}}</td>
+          <td ng-repeat="time in times">Need: {{schedule[day][time]}}
             <ul>
-              <li ng-repeat="shift in availability | slot:day.day:shift.time:show:onlyAssigned">
-                <div >{{shift.name}} + {{shift.shift.type}} + 
-                  <a href="#" ng-click=toggle(shift)>{{shift.shift.assigned}}</a>
+              <li ng-repeat="personShift in availability | slot:day:time:show:onlyAssigned">
+                <div >{{personShift.name}} + {{personShift.shift.type}} + 
+                  <a href="#" ng-click=toggle(personShift)>{{personShift.shift.assigned}}</a>
                 </div>
               </li>
             </ul>
-          </td>
+          </td>            
         </tr>
       </tbody>
     </table>
