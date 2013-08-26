@@ -25,7 +25,8 @@
       <tbody>
         <tr ng-repeat="day in days">
           <td>{{day}}</td>
-          <td ng-repeat="time in times">Need: {{scheduleView[day][time].need}}
+          <td ng-repeat="time in times">Need: {{shiftNeed[day][time]}}
+            Has: {{assignedPeopleCount[day][time]}}
             <ul>
               <li ng-repeat="availabilityOfPerson in scheduleView.selectedPeople(day,time)">
                 <div >{{availabilityOfPerson.name}} + {{availabilityOfPerson.preference}} + 

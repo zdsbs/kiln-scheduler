@@ -120,5 +120,25 @@ describe('Schedule Controller', function() {
 			expect(selectedPeople84[0].name).toBe('Bob');
 		});
 
+		it('can assign a Pete to a 1/1/2013, 8-4',function() {
+			scope.showOnlyAssigned = true;			
+			scope.toggleAssignment('Pete','1/1/2013','8-4');
+			scope.$digest();
+			var selectedPeople84 = scope.scheduleView.selectedPeople('1/1/2013','8-4');
+			expect(selectedPeople84.length).toBe(2);
+		})
+
+		it('assigned people count 1/1/2013,8-4',function() {
+			var assignedPeopleCount = scope.assignedPeopleCount['1/1/2013']['8-4'];	
+			expect(assignedPeopleCount).toBe(1);		
+		});
+
+		it('assigned people count 1/1/2013,8-4 updates after weve assigned Pete',function() {
+			scope.toggleAssignment('Pete','1/1/2013','8-4');
+			scope.$digest();
+			var assignedPeopleCount = scope.assignedPeopleCount['1/1/2013']['8-4'];	
+			expect(assignedPeopleCount).toBe(2);		
+		});
+
 	});
 });

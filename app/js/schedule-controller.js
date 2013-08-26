@@ -2,18 +2,6 @@
 
 function ScheduleCtlr($scope,dataServer) {
 
-	$scope.assignedPeople = function(shift){
-	};
-
-	$scope.assignPerson=function(shift,person) {
-
-	};
-
-	$scope.unassignPerson=function(shift,person) {
-
-	};
-
-
 	$scope.shiftNeed = dataServer.shiftNeed();
 
 	$scope.days = dataServer.getDays();
@@ -26,25 +14,14 @@ function ScheduleCtlr($scope,dataServer) {
 	}
 	$scope.showOnlyAssigned = false;
 
-	var scheduleView = {
-		selectedPeople: function(day,time) {
-			return this[day][time];
-		}
-	}
-
-	var initScheduleView = function(days,times) {
-		for(var i = 0; i < days.length; i++) {
-			var day = days[i];		
-			scheduleView[day] = {};
-			for(var j = 0; j < times.length; j++) {
-				var time = times[j];
-				scheduleView[day][time] = [];
+	var forEachDayTime = function(action) {
+		for(var i = 0; i < $scope.days.length; i++) {
+			for(var j = 0; j < $scope.times.length; j++) {
+				action($scope.days[i],$scope.times[j]);
 			}
 		}
-	}	
-
-	initScheduleView($scope.days,$scope.times);
-	$scope.scheduleView = scheduleView;
+	}
+	this.forEachDayTime = forEachDayTime;
 
 	var forEachDayTimeAvailable = function(person,action) {
 		for (var day in person.availability) {
@@ -53,8 +30,28 @@ function ScheduleCtlr($scope,dataServer) {
 			}
 		}
 	};
-
 	this.forEachDayTimeAvailable = forEachDayTimeAvailable;
+
+	/*
+	scheduleView is a data object of type:
+	[day][time][{name,preferece=<ideal|possible>,assigned=<true|false>},...]
+	*/
+	var scheduleView = {
+		selectedPeople: function(day,time) {
+			return this[day][time];
+		}
+	}
+
+	var initScheduleViewShift = function(day,time) {
+		if(!scheduleView[day]) {
+			scheduleView[day] = {};
+		}
+		scheduleView[day][time] = [];
+	}
+
+	forEachDayTime(initScheduleViewShift);
+
+	$scope.scheduleView = scheduleView;
 
 	var showPersonAction = function(person,day,time){
 		var shiftDetails = person.availability[day][time];
@@ -70,7 +67,7 @@ function ScheduleCtlr($scope,dataServer) {
 	}
 
 	var hideAllPeople = function() {
-		initScheduleView($scope.days,$scope.times);
+		forEachDayTime(initScheduleViewShift);
 	}
 	var showPerson = function(person) {
 		forEachDayTimeAvailable(person,showPersonAction);
@@ -105,6 +102,30 @@ function ScheduleCtlr($scope,dataServer) {
 		person.availability[day][time].assigned = !person.availability[day][time].assigned;
 	}
 
+	$scope.assignedPeopleCount = {};
+	var initAssignedPeople = function() {
+		var personAssigned = function(person,day,time) {
+			if(person.availability[day] && person.availability[day][time] && person.availability[day][time].assigned) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+		forEachDayTime(function(day,time){
+			if(!$scope.assignedPeopleCount[day]) {
+				$scope.assignedPeopleCount[day] = {};
+			}
+			$scope.assignedPeopleCount[day][time] = 0;
+		});
+
+		_.each($scope.people,function(person){
+			forEachDayTimeAvailable(person,function(person,day,time) {
+				$scope.assignedPeopleCount[day][time] += personAssigned(person,day,time);
+			})
+		});
+	}
+	initAssignedPeople();
+
 	var rerenderPeople = function() {
 		hideAllPeople();
 		_.each($scope.peopleToShow,showPerson);
@@ -115,6 +136,7 @@ function ScheduleCtlr($scope,dataServer) {
 
 	$scope.$watch('people',function(){
 		rerenderPeople();
+		initAssignedPeople();
 	},true);
 
 	$scope.$watch('peopleToShow',function() {
