@@ -1,0 +1,7 @@
+- Create services for front end
+- Have front end call services (even dummy services)
+- Figure out persistance
+- Figure out login
+- Figure out account creation
+- Shift signup page
+- Account info page
