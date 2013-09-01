@@ -1,0 +1,14 @@
+{
+  "name": "kiln-scheduler",
+  "description": "we help you schedule your kiln",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies" : {
+    "express": "3.1.x",
+    "mongoskin": ">= 0.6.x"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+   }
+}
