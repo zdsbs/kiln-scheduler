@@ -76,5 +76,5 @@ angular.module('app',[]).
     }).
     config(['$routeProvider',function($routeProvider){
         $routeProvider.
-            when('/schedule/:kilnId',{controller:ScheduleCtlr, templateUrl:'schedule.html'});
+            when('/masterSchedule/:kilnId',{controller:MasterScheduleCtlr, templateUrl:'masterSchedule.html'});
     }]);

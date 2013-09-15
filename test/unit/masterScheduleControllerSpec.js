@@ -45,7 +45,7 @@ describe('Schedule Controller', function() {
 	beforeEach(inject(function($controller, $rootScope,dataServer) {
 	    scope = $rootScope.$new();
 
-	    ctrl = $controller('ScheduleCtlr', {
+	    ctrl = $controller('MasterScheduleCtlr', {
 	        $scope: scope,
 	        dataServer:dataServer
 	    });

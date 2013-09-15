@@ -1,6 +1,6 @@
 'use strict';
 
-function ScheduleCtlr($scope,$routeParams,dataServer) {
+function MasterScheduleCtlr($scope,$routeParams,dataServer) {
 	$scope.kilnId = $routeParams.kilnId;
 	$scope.shiftNeed = dataServer.shiftNeed($scope.kilnId);
 
