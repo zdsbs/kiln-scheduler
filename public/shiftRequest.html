@@ -8,11 +8,11 @@
     <script src="lib/underscore-min.js"></script>
     <script src="lib/jquery-latest.js"></script>
     <script src="lib/angular.min.js"></script>
-    <script src="js/controllers.js"></script>
+    <script src="js/shift-request-controller.js"></script>
     <script src="js/app.js"></script>
     
   </head>
-  <body ng-controller="ScheduleCtlr">
+  <body ng-controller="ShiftRequestCtlr">
 
     <table width="70%" border="1">
       <caption>My table</caption>
@@ -25,11 +25,13 @@
       <tbody>
         <tr ng-repeat="day in days">
           <td>{{day}}</td>
-          <td ng-repeat="time in times">Need: {{schedule[day][time]}}
+          <td ng-repeat="time in times">Need: {{shiftNeed[day][time]}}
+            Has: {{assignedPeopleCount[day][time]}}
             <ul>
-              <li ng-repeat="personShift in availability | slot:day:time:show:onlyAssigned">
-                <div >{{personShift.name}} + {{personShift.preference}} + 
-                  <a href="#" ng-click=personShift.toggle()>{{personShift.assigned}}</a>
+              <li ng-repeat="availabilityOfPerson in scheduleView.selectedPeople(day,time)">
+                <div >{{availabilityOfPerson.name}}</div>
+                <div ng-repeat="selected in person.selectionStatus(day,time)">
+                  {{selected.preference}}
                 </div>
               </li>
             </ul>
@@ -37,13 +39,13 @@
         </tr>
       </tbody>
     </table>
-    <div><input type="checkbox" ng-model="onlyAssigned">Only Assigned</div>
+    <div><input type="checkbox" ng-model="showOnlyAssigned">Only Assigned</div>
     <ul class="unstyled">
         <li ng-repeat="person in people">
-          <input type="checkbox" ng-click="showhide(person)">
+          <input type="checkbox" ng-model="value" ng-init="value=true" ng-change="showHide(person,value)">
           <span >{{person.name}}</span>
         </li>
       </ul>
-
+      <button ng-click="savePeopleAssignements()">SAVE</button>
   </body>
 </html>

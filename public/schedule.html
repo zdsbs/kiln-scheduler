@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="app">
-  <head>
-    <meta charset="utf-8">
-    <title>Stuff</title>
-
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="lib/underscore-min.js"></script>
-    <script src="lib/jquery-latest.js"></script>
-    <script src="lib/angular.min.js"></script>
-    <script src="js/schedule-controller.js"></script>
-    <script src="js/app.js"></script>
-    
-  </head>
-  <body ng-controller="ScheduleCtlr">
-
     <table width="70%" border="1">
-      <caption>My table</caption>
+      <caption>For: {{kilnId}}</caption>
       <thead>
         <tr>
           <th>Day</th>
@@ -30,7 +14,7 @@
             <ul>
               <li ng-repeat="availabilityOfPerson in scheduleView.selectedPeople(day,time)">
                 <div >{{availabilityOfPerson.name}} + {{availabilityOfPerson.preference}} + 
-                  <a href="#" ng-click=toggleAssignment(availabilityOfPerson.name,day,time)>
+                  <a href="#/schedule/{{kilnId}}" ng-click=toggleAssignment(availabilityOfPerson.name,day,time)>
                     {{availabilityOfPerson.assigned}}</a>
                 </div>
               </li>
@@ -46,6 +30,4 @@
           <span >{{person.name}}</span>
         </li>
       </ul>
-
-  </body>
-</html>
+      <button ng-click="savePeopleAssignements()">SAVE</button>

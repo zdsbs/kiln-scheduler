@@ -1,13 +1,12 @@
 'use strict';
 
-function ScheduleCtlr($scope,$routeParams,dataServer) {
-	$scope.kilnId = $routeParams.kilnId;
+function ShiftRequestCtlr($scope,dataServer) {
+
 	$scope.shiftNeed = dataServer.shiftNeed();
 
 	$scope.days = dataServer.getDays();
 	$scope.times = dataServer.getTimes();
 
-	$scope.people = dataServer.getAllPeople();
 	$scope.peopleToShow = [];
 	for(var i = 0; i < $scope.people.length;i++) {
 		$scope.peopleToShow.push($scope.people[i]);

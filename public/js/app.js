@@ -4,10 +4,9 @@
 
 angular.module('app',[]).
     factory('dataServer', function () {
-
-        return {
-            getAllPeople: function() {
-                var pete = {
+        var PEOPLE_ID = 'kiln-scheduler-people';
+        var initialPeople = [
+                {
                     name:"Pete",
                     availability: {
                         "1/1/2013": {
@@ -20,9 +19,8 @@ angular.module('app',[]).
                         }
 
                     }
-                }
-
-                var lucy = {
+                },
+                {
                     name:"Lucy",
                     availability: {
                         "1/1/2013": {
@@ -35,9 +33,8 @@ angular.module('app',[]).
                         }
 
                     }
-                }
-
-                var bob = {
+                },
+                {
                     name:"Bob",
                     availability: {
                         "1/1/2013": {
@@ -47,8 +44,15 @@ angular.module('app',[]).
                             "12-8": {preference:"ideal", assigned:false}
                         }
                     }
+                }];
+        return {
+            getAllPeople: function() {
+                var people = JSON.parse(localStorage.getItem(PEOPLE_ID) || '[]');
+                if (people.length == 0) {
+                    this.setPeople(initialPeople);
+                    people = initialPeople;
                 }
-                return [pete,lucy,bob];
+                return people;
             },
             shiftNeed: function() {
                 return {
@@ -61,27 +65,16 @@ angular.module('app',[]).
             getTimes: function() {
                 return ["12-8","8-4","4-12"];
             },
-            get: function () {
-                return JSON.parse(localStorage.getItem(STORAGE_ID) || '[]');
+            setPeople:function(people) {
+                console.log("setPeople");
+                localStorage.setItem(PEOPLE_ID, JSON.stringify(people));
             },
-
-            put: function (recipes) {
-                localStorage.setItem(STORAGE_ID, JSON.stringify(recipes));
+            addPerson:function(person) {
+                this.setPeople(this.getAllPeople().push(person));
             }
         };
     }).
-	filter('slot', function() {
-    	return function(availability,day,time,show,onlyAssigned) {
-    		var out = [];
-    		for(var i = 0; i < availability.length; i++) {
-    			var a = availability[i];
- 				if(onlyAssigned && !a.shift.assigned) {
- 					continue;
- 				}
-    			if(a.shift.day == day && a.shift.time == time && show.indexOf(a.name) != -1) {
-    				out.push(a);
-    			}
-    		}
-    		return out;
-    	}
-  });
+    config(['$routeProvider',function($routeProvider){
+        $routeProvider.
+            when('/schedule/:kilnId',{controller:ScheduleCtlr, templateUrl:'schedule.html'});
+    }]);
