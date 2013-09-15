@@ -46,31 +46,31 @@ angular.module('app',[]).
                     }
                 }];
         return {
-            getAllPeople: function() {
-                var people = JSON.parse(localStorage.getItem(PEOPLE_ID) || '[]');
+            getAllPeople: function(kilnId) {
+                var people = JSON.parse(localStorage.getItem(PEOPLE_ID+kilnId) || '[]');
                 if (people.length == 0) {
-                    this.setPeople(initialPeople);
+                    this.setPeople(kilnId,initialPeople);
                     people = initialPeople;
                 }
                 return people;
             },
-            shiftNeed: function() {
+            shiftNeed: function(kilnId) {
                 return {
                     "1/1/2013": {"12-8":0,"8-4":1,"4-12":2},
                     "1/2/2013": {"12-8":2,"8-4":3,"4-12":3}};
             },
-            getDays: function() {
+            getDays: function(kilnId) {
                 return  ["1/1/2013","1/2/2013"];
             },
-            getTimes: function() {
+            getTimes: function(kilnId) {
                 return ["12-8","8-4","4-12"];
             },
-            setPeople:function(people) {
-                console.log("setPeople");
-                localStorage.setItem(PEOPLE_ID, JSON.stringify(people));
+            setPeople:function(kilnId,people) {
+                console.log("setPeople: " + kilnId);
+                localStorage.setItem(PEOPLE_ID+kilnId, JSON.stringify(people));
             },
-            addPerson:function(person) {
-                this.setPeople(this.getAllPeople().push(person));
+            addPerson:function(kilnId,person) {
+                this.setPeople(kilnId,this.getAllPeople(kilnId).push(person));
             }
         };
     }).

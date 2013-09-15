@@ -2,12 +2,12 @@
 
 function ScheduleCtlr($scope,$routeParams,dataServer) {
 	$scope.kilnId = $routeParams.kilnId;
-	$scope.shiftNeed = dataServer.shiftNeed();
+	$scope.shiftNeed = dataServer.shiftNeed($scope.kilnId);
 
-	$scope.days = dataServer.getDays();
-	$scope.times = dataServer.getTimes();
+	$scope.days = dataServer.getDays($scope.kilnId);
+	$scope.times = dataServer.getTimes($scope.kilnId);
 
-	$scope.people = dataServer.getAllPeople();
+	$scope.people = dataServer.getAllPeople($scope.kilnId);
 	$scope.peopleToShow = [];
 	for(var i = 0; i < $scope.people.length;i++) {
 		$scope.peopleToShow.push($scope.people[i]);
@@ -43,7 +43,7 @@ function ScheduleCtlr($scope,$routeParams,dataServer) {
 	$scope.assignedPeopleCount = {};
 
 	$scope.savePeopleAssignements = function() {
-		dataServer.setPeople($scope.people);
+		dataServer.setPeople($scope.kilnId,$scope.people);
 	}
 
 	//utility functions - depdant on the days / times :(
